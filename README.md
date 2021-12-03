@@ -20,24 +20,41 @@ As a result, it is often difficult to jointly optimize these two subtasks.
 
 ## What is SALSA-Lite?
 
-SALSA-Lite is a fast version of our previously proposed [SALSA](https://github.com/thomeou/SALSA) feature for polyphonic 
-SELD. SALSA stands for Spatial Cue-Augmented Log-Spectrogram. The SALSA feature consists of multichannel log-linear 
+SALSA-Lite is a fast version of our previously proposed [SALSA](https://arxiv.org/abs/2110.00275) feature for polyphonic 
+SELD. SALSA stands for Spatial Cue-Augmented Log-SpectrogrAm. The SALSA feature consists of multichannel log-linear 
 spectrograms stacked along with the normalized principal eigenvector of the spatial covariance matrix at each 
 corresponding time-frequency bin. In contrast to SALSA, which uses eigenvector-based spatial features, SALSA-Lite uses 
 normalized inter-channel phase differences as spatial features, allowing a 30-fold speedup compared to the original 
-SALSA feature. Both SALSA and SALSA-Lite features have the exact time-frequency mapping between the signal power and 
+SALSA feature. Both SALSA and SALSA-Lite features preserve the exact time-frequency mapping between the signal power and 
 the source directional cues, which is crucial for resolving overlapping sound sources. 
 
-While SALSA features can be used for different microphone array formats such as first-order ambisonics (FOA) and 
-multichannel microphone array (MIC), SALSA-Lite is designated for MIC format, where the directional cues are mainly 
-encoded in the phase differences between microphones.
+SALSA-Lite is designated for multichannel microphone array (MIC) format, which is the most accessible and commonly-used 
+type of microphone arrays in practice. Experimental results on the TAU-NIGENS Spatial Sound Events (TNSSE) 2021 dataset 
+with directional interferences showed that SALSA-Lite features achieved similar performance as SALSA features for MIC 
+format, and significantly outperformed multichannel log-mel spectrograms with generalized cross-correlation spectra 
+(MelSpecGCC) feature. Specifically, SALSA-Lite improved  the F1 score and localization recall by 15% and 5%, 
+respectively, compared to MelSpecGCC. 
 
-Experimental results on the TAU-NIGENS Spatial Sound Events (TNSSE) 2021 dataset with directional interferences showed 
-that SALSA-Lite features achieved similar performance as SALSA features for MIC format, and significantly outperformed 
-multichannel log-mel spectrograms with generalized cross-correlation spectra (MelSpecGCC) feature. Specifically, 
-SALSA-Lite improved  the F1 score and localization recall by 15% and 5%, respectively, compared to MelSpecGCC. 
+<p align="center">
+        <img src="figures/SALSA-Lite performance.png" 
+         title="SELD performance of SALSA-Lite vs other features" width="60%">
+</p>
 
-![SELD performance](figures/SALSA-Lite performance.png)
+## Time complexity
+
+SALSA-Lite is fast to compute. The average amount of time to compute SELD features for a 60-second audio clip with 4  
+input channels, using a machine with a 10-core Intel i9-7900X CPU, is shown in following table. SALSA-Lite and
+SALSA-IPD take only 0.30 s on average for fea-ture computation, 9 and 30 times faster than MELSPECGCC (2.90 s) and 
+SALSA (9.45 s) respectively. Given the competitive performance and low computational load, SALSA-Lite is an attractive
+candidate feature for real-time SELD applications for MIC format.
+
+| Feature        | Average time (seconds)  | 
+| :---        | :----:   |
+| melspecgcc  | 2.90     | 
+| SALSA       | 9.45     | 
+| **SALSA-IPD** | 0.30   | 
+| **SALSA-Lite**| 0.30   | 
+
 
 ## Effect of spatial aliasing on SELD performance
 
@@ -46,17 +63,20 @@ We report the performance of SALSA-Lite and SALSA-IPD with upper cutoff frequenc
 better than 9kHz cutoff. However, the performance gaps are small. These results show that SALSA-Lite and SALSA-IPD 
 are only mildly affected by spatial aliasing. 
 
-![SELD performance](figures/SALSA-Lite effect of spatial aliasing.png)
+<p align="center">
+        <img src="figures/SALSA-Lite effect of spatial aliasing.png" 
+         title="Effect of spatial aliasing on SELD performance using SALSA-Lite features" width="60%">
+</p>
 
 ## Comparison with state-of-the-art SELD systems
 
 We listed the performances of our model trained with the proposed SALSA-Lite features and other state-of-the-art SELD
 system in the following table. Since there is a severe lack of SELD systems developed for MIC format, we also included 
-SELD systems developed for FOA format. The model trained on SALSA-Lite feature significantly outperformed the DCASE 
-baseline for MIC format. Even though our model is only a simple CRNN, it performed better than the highest-ranked 
-ensemble from the 2021 DCASE Challenge in terms of error rate (ER) and F1 score (F), and only slightly worse 
-in terms of localization error (LE) and localization recall (LR). The results show that the proposed SALSA-Lite features 
-for MIC formats are effective for SELD. 
+SELD systems developed for first-order ambisonics (FOA) format. The model trained on SALSA-Lite feature significantly 
+outperformed the DCASE baseline for MIC format. Even though our model is only a simple CRNN, it performed better than 
+the highest-ranked ensemble from the 2021 DCASE Challenge in terms of error rate (ER) and F1 score (F), and only 
+slightly worse in terms of localization error (LE) and localization recall (LR). The results show that the proposed 
+SALSA-Lite features for MIC formats are effective for SELD. 
 
 <p align="center">
         <img src="figures/SALSA-Lite vs SOTA.png" 
