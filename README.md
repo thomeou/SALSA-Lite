@@ -152,7 +152,7 @@ Our code at main [SALSA repo](https://github.com/thomeou/SALSA) support the foll
 | SALSA       | FOA      | multichannel log-linear spectrograms  + eigenvector-based intensity vector (EIV)    | 7 |
 | SALSA       | MIC      | multichannel log-linear spectrograms  + eigenvector-based phase vector (EPV)    | 7 |
 | **SALSA-IPD** | MIC    | multichannel log-linear spectrograms  + interchannel phase difference (IPD) | 7 |
-| **SALSA-Lite**| MIC    | multichannel log-linear spectrograms  + non-normalized interchannel phase difference (IPD) | 7 |
+| **SALSA-Lite**| MIC    | multichannel log-linear spectrograms  + normalized interchannel phase difference (NIPD) | 7 |
 
 Note: the number of channels are calculated based on four-channel inputs.
 
