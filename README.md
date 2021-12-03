@@ -157,7 +157,7 @@ Our code at main [SALSA repo](https://github.com/thomeou/SALSA) support the foll
 Note: the number of channels are calculated based on four-channel inputs.
 
 To extract **SALSA-Lite** feature, edit directories for data and feature accordingly in `tnsse_2021_salsa_lite_feature_config.yml` in 
-`dataset\configs\` folder. Then run `make salsa-lite`
+`dataset\configs\` folder. Then run `make salsa`
 
 ## Training and inference
 
